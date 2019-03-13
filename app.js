@@ -21,9 +21,9 @@ function initApp(db){
     app.use(express.static(path.join(__dirname, 'public')));
 
     var indexRouter = require('./routes/index');
-    var apiRouter = require('./routes/api')(db);
+    var apiRouter = require('./routes/api');
     app.use('/', indexRouter);
-    app.use('/api', apiRouter);
+    app.use('/api', apiRouter(db));
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {

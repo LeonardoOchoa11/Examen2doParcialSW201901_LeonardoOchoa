@@ -1,13 +1,23 @@
 var ObjectID = require('mongodb').ObjectID;
 
 function employeeModel(db){
+
   var lib = {};
   var empColl = db.collection('emps');
+
   lib.getEmployees = (handler)=>{
-    // implementar
-    // obtener todos los documentos
-    return handler(new Error("No Implementado"), null);
-  }
+    
+    empColl.find({}).toArray(
+      (err, docs) => {
+          if(err){
+              handler(err, null);
+          }else{
+              handler(null, docs);
+          }
+      }
+    ) // end ToArray
+  } // end GetAllEmployees
+
 
   lib.getEmployeesById = (id, handler) => {
     // implementar
