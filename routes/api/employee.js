@@ -52,7 +52,16 @@ router.put('/addtags/:id', (req, res, next)=>{
 }); // add tags
 
 
-
+router.get('/bytag/:tag', (req, res, next)=>{
+  empModel.getEmployeesByTag((req.params.tag || '').split('_'), (err, docs)=>{
+      if(err){
+          console.log(err);
+          return res.status(500).json({"Error":"No se encontro el documento con tags"});
+      }else{
+          return res.status(200).json(docs);
+      }
+  }); // GET by tag
+}); //get by tag
 
   
   return router;
