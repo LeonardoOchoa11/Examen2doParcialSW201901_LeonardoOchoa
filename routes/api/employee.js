@@ -63,6 +63,16 @@ router.get('/bytag/:tag', (req, res, next)=>{
   }); // GET by tag
 }); //get by tag
 
+router.delete('/delete/:id', function(req, res, next){
+  var _id = req.params.id;
+  empModel.removeEmployee(_id, (err, result)=>{
+      if(err){
+          console.log(err);
+          return res.status(500).json({"error":"No se pudo eliminar"});
+      }
+      return res.status(200).json(result);
+  }); //deleteById
+}); //DELETE
   
   return router;
 }
