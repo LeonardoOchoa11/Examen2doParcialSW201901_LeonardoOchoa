@@ -7,12 +7,12 @@ function initEmployee(db) {
   //rutas a implementar
   // metodo     ruta                     body
   /*
-      GET       /all
-      GET       /byid/:id
+     
+     
       GET       /bycompany/:company
       GET       /byagerange/:min/:max
       GET       /bytag/:tag
-      POST      /addtag/:id              tag
+      
       DELETE    /delete/:id
       POST      /makeolder               age
    */
@@ -29,6 +29,30 @@ function initEmployee(db) {
       }
     )
   });// Get All Employees
+
+  router.get('/byid/:id', (req, res, next)=>{
+    empModel.getEmployeesById(req.params.id, (err, docs)=>{
+        if(err){
+            console.log(err);
+            return res.status(500).json({"Error":"Error al obtener el empleado"});
+        }
+        return res.status(200).json(docs);
+    }); //getThing by Id
+}); //get by thing:id
+
+router.put('/addtags/:id', (req, res, next)=>{
+
+  empModel.addEmployeeATag((req.body.tags || '').split('|'), req.params.id, (err, rsult)=>{
+      if(err){
+          console.log(err);
+          return res.status(500).json({"Error":"no se puede agregar tag"});
+      }
+      return res.status(200).json(rsult);
+  }); // fin add tag to employees
+}); // add tags
+
+
+
 
   
   return router;

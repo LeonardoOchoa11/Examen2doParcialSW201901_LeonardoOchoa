@@ -20,11 +20,15 @@ function employeeModel(db){
 
 
   lib.getEmployeesById = (id, handler) => {
-    // implementar
-    // Obtener un Documento solo mostrar
-    // email, phone, name y age
-    return handler(new Error("No Implementado"), null);
-  }
+    
+    empColl.find().project({"email":1, "phone":1, "name":1, "age":1})({"_id": new ObjectId(id)}, (err, doc)=>{
+      if(err){
+          handler(err, null);
+      }else{
+          handler(null, doc);
+      }
+  }); // find One    
+  }//Get Employee By ID
 
   lib.getEmployeesByCompany = (company, handler) => {
     // implementar
@@ -51,11 +55,16 @@ function employeeModel(db){
   }
 
   lib.addEmployeeATag = ( tag, id, handler) => {
-    //Implementar
-    //Se requiere agregar a un documento un nuevo tag
-    // $push
-    return handler(new Error("No Implementado"), null);
-  }
+    var curatedTags = Array.isArray(tag)? tag: [tag];
+    var updateObject = {"$set":{"tags": curatedTags}};
+    empColl.updateOne({"_id":ObjectId(id)}, updateObject, (err, rsult)=>{
+        if(err){
+            handler(err, null);
+        }else{
+            handler(null, rsult.result);
+        }
+    }); //updateOne    
+  } // add tags to things
 
   lib.removeEmployee = (id, handler) => {
     //Implementar
